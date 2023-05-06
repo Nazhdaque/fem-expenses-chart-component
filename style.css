@@ -1,0 +1,124 @@
+@font-face {
+	font-display: swap;
+	font-family: "DM Sans";
+	font-style: normal;
+	font-weight: 400;
+	src: url(/fonts/dm-sans-v11-latin-regular.woff2) format("woff2");
+}
+@font-face {
+	font-display: swap;
+	font-family: "DM Sans";
+	font-style: normal;
+	font-weight: 700;
+	src: url(/fonts/dm-sans-v11-latin-700.woff2) format("woff2");
+}
+
+:root {
+	--max-content-width: 35rem;
+
+	--soft-red: hsl(10, 79%, 65%);
+	--cyan: hsl(186, 34%, 60%);
+
+	--dark-brown: hsl(25, 47%, 15%);
+	--medium-brown: hsl(28, 10%, 53%);
+	--cream: hsl(27, 66%, 92%);
+	--very-pale-orange: hsl(33, 100%, 98%);
+
+	--ff-primary: "DM Sans", sans-serif;
+	--fs-400: 1.125rem;
+	--fs-800: calc(var(--fs-400) * 1.85);
+
+	--fw-regular: 400;
+	--fw-bold: 700;
+
+	--lh-reg: 1.65;
+	--lh-min: 1.1;
+
+	--border-raduis: 1.25rem;
+	--padding: 1.75rem;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box !important;
+	margin: 0;
+}
+
+img,
+canvas,
+picture,
+svg {
+	max-width: 100%;
+	display: block;
+}
+
+body {
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-regular);
+	font-size: var(--fs-400);
+	color: var(--clr-neutral-100-solid);
+	line-height: var(--lh-reg);
+	background-color: var(--cream);
+	padding: 1rem;
+}
+
+main {
+	min-height: 100vh;
+	min-height: 100dvh;
+	display: grid;
+	place-items: center;
+}
+
+.chart-component {
+	display: grid;
+	gap: 1rem;
+	width: min(var(--max-content-width), 100%);
+}
+.chart-component > * {
+	border-radius: var(--border-raduis);
+}
+
+.chart-holder {
+	width: 100%;
+	padding-bottom: var(--padding);
+	border-bottom: 2px solid hsl(28, 10%, 83%);
+}
+
+#expenses-chart {
+	height: 100%;
+}
+
+.chart-header {
+	background: var(--soft-red);
+	color: var(--very-pale-orange);
+	padding: var(--padding) calc(var(--padding) * 1.5) var(--padding)
+		var(--padding);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	line-height: var(--lh-min);
+}
+
+.logo {
+	height: 70%;
+}
+
+.chart-body {
+	background-color: var(--very-pale-orange);
+	padding: calc(var(--padding) * 1.25);
+	color: var(--medium-brown);
+}
+
+.chart-title {
+	color: var(--dark-brown);
+	font-size: var(--fs-800);
+	line-height: var(--lh-min);
+}
+
+.amount {
+	font-size: var(--fs-800);
+	font-weight: var(--fw-bold);
+	line-height: var(--lh-min);
+	margin-top: 0.75rem;
+}
