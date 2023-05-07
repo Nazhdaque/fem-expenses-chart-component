@@ -16,26 +16,30 @@
 :root {
 	--max-content-width: 35rem;
 
-	--soft-red: hsl(10, 79%, 65%);
-	--cyan: hsl(186, 34%, 60%);
+	--clr-primary-100: hsl(10, 79%, 65%);
+	--clr-primary-300: hsl(186, 34%, 60%);
 
-	--dark-brown: hsl(25, 47%, 15%);
-	--medium-brown: hsl(28, 10%, 53%);
-	--cream: hsl(27, 66%, 92%);
-	--very-pale-orange: hsl(33, 100%, 98%);
+	--clr-neutral-900: hsl(25, 47%, 15%);
+	--clr-neutral-600: hsl(28, 10%, 53%);
+	--clr-neutral-200: hsl(27, 66%, 92%);
+	--clr-neutral-100: hsl(33, 100%, 98%);
 
 	--ff-primary: "DM Sans", sans-serif;
 	--fs-400: 1.125rem;
 	--fs-800: calc(var(--fs-400) * 1.85);
+	--fs-900: calc(var(--fs-400) * 2.75);
 
 	--fw-regular: 400;
 	--fw-bold: 700;
 
-	--lh-reg: 1.65;
-	--lh-min: 1.1;
+	--lh-reg: 1.1;
 
 	--border-raduis: 1.25rem;
-	--padding: 1.75rem;
+
+	--spacing-2xl: calc(var(--spacing-md) * 2);
+	--spacing-xl: calc(var(--spacing-md) * 1.5);
+	--spacing-lg: calc(var(--spacing-md) * 1.25);
+	--spacing-md: 1.75rem;
 }
 
 *,
@@ -43,6 +47,7 @@
 *::after {
 	box-sizing: border-box !important;
 	margin: 0;
+	font-size: inherit;
 }
 
 img,
@@ -57,10 +62,10 @@ body {
 	font-family: var(--ff-primary);
 	font-weight: var(--fw-regular);
 	font-size: var(--fs-400);
-	color: var(--clr-neutral-100-solid);
+	color: var(--clr-neutral-600);
 	line-height: var(--lh-reg);
-	background-color: var(--cream);
-	padding: 1rem;
+	background-color: var(--clr-neutral-200);
+	padding: var(--spacing-md);
 }
 
 main {
@@ -71,54 +76,90 @@ main {
 }
 
 .chart-component {
-	display: grid;
-	gap: 1rem;
 	width: min(var(--max-content-width), 100%);
 }
+
 .chart-component > * {
 	border-radius: var(--border-raduis);
 }
 
-.chart-holder {
-	width: 100%;
-	padding-bottom: var(--padding);
-	border-bottom: 2px solid hsl(28, 10%, 83%);
-}
-
-#expenses-chart {
-	height: 100%;
-}
-
+/* chart-header */
 .chart-header {
-	background: var(--soft-red);
-	color: var(--very-pale-orange);
-	padding: var(--padding) calc(var(--padding) * 1.5) var(--padding)
-		var(--padding);
+	background: var(--clr-primary-100);
+	color: var(--clr-neutral-100);
+	padding: var(--spacing-md) var(--spacing-xl) var(--spacing-md)
+		var(--spacing-md);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	line-height: var(--lh-min);
+	margin-bottom: var(--spacing-md);
+}
+
+.amount {
+	font-size: var(--fs-800);
+	font-weight: var(--fw-bold);
+	margin-top: 0.75rem;
 }
 
 .logo {
 	height: 70%;
 }
 
+/* chart-body */
 .chart-body {
-	background-color: var(--very-pale-orange);
-	padding: calc(var(--padding) * 1.25);
-	color: var(--medium-brown);
+	background-color: var(--clr-neutral-100);
+	padding: var(--spacing-lg);
 }
 
 .chart-title {
-	color: var(--dark-brown);
+	color: var(--clr-neutral-900);
 	font-size: var(--fs-800);
-	line-height: var(--lh-min);
 }
 
-.amount {
-	font-size: var(--fs-800);
+.chart-holder {
+	width: 100%;
+	padding-bottom: var(--spacing-2xl);
+	position: relative;
+}
+.chart-holder::before {
+	position: absolute;
+	content: "";
+	left: 0;
+	right: 0;
+	bottom: var(--spacing-md);
+	margin-inline: auto;
+	width: 96%;
+	height: 2px;
+	background-color: var(--clr-neutral-200);
+}
+
+#expenses-chart {
+	height: 100%;
+}
+
+/* chart-footer */
+.chart-footer {
+	display: grid;
+	gap: 0.5rem var(--spacing-md);
+	grid-auto-flow: column;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, min-content);
+	background-color: var(--clr-neutral-100);
+}
+
+.result {
+	grid-row: 2;
+	display: grid;
+	place-items: center end;
+}
+
+.total {
+	font-size: var(--fs-900);
 	font-weight: var(--fw-bold);
-	line-height: var(--lh-min);
-	margin-top: 0.75rem;
+	color: var(--clr-neutral-900);
+}
+
+.percent {
+	color: var(--clr-neutral-900);
+	font-weight: var(--fw-bold);
 }

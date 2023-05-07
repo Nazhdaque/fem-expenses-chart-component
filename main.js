@@ -1,37 +1,6 @@
 import "./style.css";
 import Chart from "chart.js/auto";
 
-const data = [
-	{
-		day: "mon",
-		amount: 17.45,
-	},
-	{
-		day: "tue",
-		amount: 34.91,
-	},
-	{
-		day: "wed",
-		amount: 52.36,
-	},
-	{
-		day: "thu",
-		amount: 31.07,
-	},
-	{
-		day: "fri",
-		amount: 23.39,
-	},
-	{
-		day: "sat",
-		amount: 43.28,
-	},
-	{
-		day: "sun",
-		amount: 25.48,
-	},
-];
-
 class chartValues {
 	constructor(data) {
 		this.data = data;
@@ -64,6 +33,11 @@ class chartValues {
 				? this.chartColors.accentOnHover
 				: this.chartColors.mainOnHover
 		);
+	getFontSize = () => {
+		window.outerWidth <= 450
+			? (Chart.defaults.font.size = 12)
+			: (Chart.defaults.font.size = 18);
+	};
 	getValues = () => {
 		return {
 			tooltipTitle_hidden: () => "",
@@ -74,75 +48,76 @@ class chartValues {
 			hoverBackgroundColor: this.getHoverBgColor(),
 			chartColors: this.chartColors,
 			borderRadius: 5,
+			chartFontSize: this.getFontSize,
 		};
 	};
 }
 
-const values = new chartValues(data);
-const expensesChart = values.getValues();
+const getData = async () => {
+	const responce = await fetch("data.json");
+	const data = await responce.json();
+	const values = new chartValues(data);
+	return values.getValues();
+};
 
-new Chart(document.getElementById("expenses-chart"), {
-	type: "bar",
-	options: {
-		aspectRatio: 1.1,
-		maintainAspectRatio: false,
-		animation: true,
-		scales: {
-			x: {
-				grid: {
-					display: false,
-				},
-				ticks: {
-					color: expensesChart.chartColors.xTicksColor,
-					font: {
-						size: 18,
+const getChart = async () => {
+	const ctx = document.getElementById("expenses-chart");
+	const expensesChart = await getData();
+
+	new Chart(ctx, {
+		type: "bar",
+		options: {
+			aspectRatio: 1.25,
+			maintainAspectRatio: false,
+			animation: true,
+			scales: {
+				x: {
+					grid: { display: false },
+					ticks: {
+						color: expensesChart.chartColors.xTicksColor,
+						font: { size: expensesChart.chartFontSize },
 					},
+					border: { display: false },
 				},
-				border: {
+				y: {
 					display: false,
+					grace: 15,
 				},
 			},
-			y: {
-				display: false,
-				grace: 15,
+			plugins: {
+				legend: { display: false },
+				tooltip: {
+					caretSize: 0,
+					caretPadding: 8,
+					yAlign: "bottom",
+					xAlign: "center",
+					displayColors: false,
+					callbacks: { title: expensesChart.tooltipTitle_hidden },
+					bodyColor: expensesChart.chartColors.tooltipBodyColor,
+					backgroundColor: expensesChart.chartColors.tooltipBgColor,
+					bodyFont: {
+						size: 16,
+						weight: "500",
+					},
+					padding: 10,
+				},
 			},
 		},
-		plugins: {
-			legend: {
-				display: false,
-			},
-			tooltip: {
-				caretSize: 0,
-				caretPadding: 8,
-				yAlign: "bottom",
-				xAlign: "center",
-				displayColors: false,
-				callbacks: {
-					title: expensesChart.tooltipTitle_hidden,
-				},
-				bodyColor: expensesChart.chartColors.tooltipBodyColor,
-				backgroundColor: expensesChart.chartColors.tooltipBgColor,
-				bodyFont: {
-					size: 16,
-					weight: "500",
-				},
-				padding: 10,
-				cornerRadius: 7,
-			},
-		},
-	},
 
-	data: {
-		labels: expensesChart.labels,
-		datasets: [
-			{
-				label: expensesChart.label,
-				data: expensesChart.data,
-				backgroundColor: expensesChart.backgroundColor,
-				borderRadius: expensesChart.borderRadius,
-				hoverBackgroundColor: expensesChart.hoverBackgroundColor,
-				borderSkipped: false,
-			},
-		],
-	},
-});
+		data: {
+			labels: expensesChart.labels,
+			datasets: [
+				{
+					label: expensesChart.label,
+					data: expensesChart.data,
+					backgroundColor: expensesChart.backgroundColor,
+					borderRadius: expensesChart.borderRadius,
+					hoverBackgroundColor: expensesChart.hoverBackgroundColor,
+					borderSkipped: false,
+				},
+			],
+		},
+	});
+};
+
+getChart();

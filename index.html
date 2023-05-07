@@ -45,30 +45,33 @@
 
 <body>
 	<main>
-		<div class="chart-component">
-			<div class="chart-header">
+		<article class="chart-component">
+			<header class="chart-header">
 				<div>
-					<p>My balance</p>
+					<h1>My balance</h1>
 					<p class="amount">$921.48</p>
 				</div>
 				<img class="logo"
 						 src="/images/logo.svg"
 						 alt="">
-			</div>
+			</header>
 
 			<div class="chart-body">
-				<h1 class="chart-title">Spending - Last 7 days</h1>
+				<h2 class="chart-title">Spending - Last 7 days</h2>
 				<div class="chart-holder">
 					<canvas id="expenses-chart"></canvas>
 				</div>
 
-				<p>Total this month</p>
-				<p>$478.33</p>
-
-				<p>+2.4%</p>
-				<p>from last month</p>
+				<footer class="chart-footer">
+					<p>Total this month</p>
+					<p class="total">$478.33</p>
+					<div class="result">
+						<p class="percent">+2.4%</p>
+						<p>from last month</p>
+					</div>
+				</footer>
 			</div>
-		</div>
+		</article>
 	</main>
 	<script type="module"
 					src="/main.js"></script>
