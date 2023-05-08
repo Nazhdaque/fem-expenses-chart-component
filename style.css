@@ -25,21 +25,15 @@
 	--clr-neutral-100: hsl(33, 100%, 98%);
 
 	--ff-primary: "DM Sans", sans-serif;
-	--fs-400: 1.125rem;
-	--fs-800: calc(var(--fs-400) * 1.85);
-	--fs-900: calc(var(--fs-400) * 2.75);
+
+	--liquid-size: calc(5vw - 1rem);
+
+	--fs-400: clamp(1rem, var(--liquid-size), 1.125rem);
+	--fs-800: clamp(1.575rem, var(--liquid-size), 2.1rem);
+	--fs-900: clamp(2rem, var(--liquid-size), 3rem);
 
 	--fw-regular: 400;
 	--fw-bold: 700;
-
-	--lh-reg: 1.1;
-
-	--border-raduis: 1.25rem;
-
-	--spacing-2xl: calc(var(--spacing-md) * 2);
-	--spacing-xl: calc(var(--spacing-md) * 1.5);
-	--spacing-lg: calc(var(--spacing-md) * 1.25);
-	--spacing-md: 1.75rem;
 }
 
 *,
@@ -63,9 +57,9 @@ body {
 	font-weight: var(--fw-regular);
 	font-size: var(--fs-400);
 	color: var(--clr-neutral-600);
-	line-height: var(--lh-reg);
+	line-height: 1.1;
 	background-color: var(--clr-neutral-200);
-	padding: var(--spacing-md);
+	padding: clamp(1rem, var(--liquid-size), 2rem);
 }
 
 main {
@@ -77,38 +71,42 @@ main {
 
 .chart-component {
 	width: min(var(--max-content-width), 100%);
+	display: grid;
+	gap: clamp(1rem, var(--liquid-size), 1.5rem);
 }
 
 .chart-component > * {
-	border-radius: var(--border-raduis);
+	border-radius: clamp(0.66rem, var(--liquid-size), 1.25rem);
 }
 
 /* chart-header */
 .chart-header {
 	background: var(--clr-primary-100);
 	color: var(--clr-neutral-100);
-	padding: var(--spacing-md) var(--spacing-xl) var(--spacing-md)
-		var(--spacing-md);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: var(--spacing-md);
+	padding: clamp(1.5rem, var(--liquid-size), 1.75rem);
+}
+
+.chart-header h1 {
+	font-weight: var(--fw-regular);
 }
 
 .amount {
 	font-size: var(--fs-800);
 	font-weight: var(--fw-bold);
-	margin-top: 0.75rem;
 }
 
 .logo {
-	height: 70%;
+	height: 100%;
+	padding-inline: clamp(0.1rem, var(--liquid-size), 0.5rem);
+	padding-block: clamp(0.4rem, var(--liquid-size), 0.5rem);
+	grid-row: 1 / -1;
+	place-self: center end;
 }
 
 /* chart-body */
 .chart-body {
 	background-color: var(--clr-neutral-100);
-	padding: var(--spacing-lg);
+	padding: clamp(1.5rem, var(--liquid-size), 2.5rem);
 }
 
 .chart-title {
@@ -117,40 +115,35 @@ main {
 }
 
 .chart-holder {
-	width: 100%;
-	padding-bottom: var(--spacing-2xl);
-	position: relative;
-}
-.chart-holder::before {
-	position: absolute;
-	content: "";
-	left: 0;
-	right: 0;
-	bottom: var(--spacing-md);
-	margin-inline: auto;
-	width: 96%;
-	height: 2px;
-	background-color: var(--clr-neutral-200);
+	--inline-corrector: clamp(0.75rem, var(--liquid-size), 1.25rem);
+
+	width: calc(100% + var(--inline-corrector));
+	margin-inline: calc(var(--inline-corrector) / -2);
 }
 
 #expenses-chart {
 	height: 100%;
 }
 
+.delimiter {
+	border: none;
+	color: var(--clr-neutral-200);
+	background-color: var(--clr-neutral-200);
+	height: 2px;
+	margin-block: clamp(1.5rem, var(--liquid-size), 2rem);
+}
+
 /* chart-footer */
-.chart-footer {
-	display: grid;
-	gap: 0.5rem var(--spacing-md);
-	grid-auto-flow: column;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(2, min-content);
-	background-color: var(--clr-neutral-100);
+.chart-footer > * {
+	min-width: max-content;
 }
 
 .result {
 	grid-row: 2;
-	display: grid;
-	place-items: center end;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: end;
 }
 
 .total {
@@ -162,4 +155,13 @@ main {
 .percent {
 	color: var(--clr-neutral-900);
 	font-weight: var(--fw-bold);
+}
+
+/* utilities */
+.top-bottom-layout {
+	display: grid;
+	gap: clamp(0.5rem, var(--liquid-size), 0.75rem);
+	grid-auto-flow: column;
+	grid-template-columns: repeat(auto-fit, minmax(max-content, 1fr));
+	grid-template-rows: repeat(2, min-content);
 }

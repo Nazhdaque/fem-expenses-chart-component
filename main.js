@@ -16,6 +16,7 @@ class chartValues {
 		this.keys = [...new Set(this.data.flatMap(Object.keys))];
 		this.amounts = this.getAmounts();
 		this.maxValue = this.getMaxValue();
+		this.breakpoint = 450;
 	}
 
 	getlabels = () => this.data.map(entry => entry[this.keys[0]]);
@@ -34,10 +35,12 @@ class chartValues {
 				: this.chartColors.mainOnHover
 		);
 	getFontSize = () => {
-		window.outerWidth <= 450
+		window.outerWidth <= this.breakpoint
 			? (Chart.defaults.font.size = 12)
 			: (Chart.defaults.font.size = 18);
 	};
+	getBorderRadius = () => (window.outerWidth <= this.breakpoint ? 3 : 5);
+	getTootipFontSize = () => (window.outerWidth <= this.breakpoint ? 12 : 16);
 	getValues = () => {
 		return {
 			tooltipTitle_hidden: () => "",
@@ -47,7 +50,7 @@ class chartValues {
 			backgroundColor: this.getMainBgColor(),
 			hoverBackgroundColor: this.getHoverBgColor(),
 			chartColors: this.chartColors,
-			borderRadius: 5,
+			borderRadius: this.getBorderRadius,
 			chartFontSize: this.getFontSize,
 		};
 	};
@@ -87,6 +90,7 @@ const getChart = async () => {
 			plugins: {
 				legend: { display: false },
 				tooltip: {
+					cornerRadius: expensesChart.borderRadius,
 					caretSize: 0,
 					caretPadding: 8,
 					yAlign: "bottom",
@@ -96,7 +100,7 @@ const getChart = async () => {
 					bodyColor: expensesChart.chartColors.tooltipBodyColor,
 					backgroundColor: expensesChart.chartColors.tooltipBgColor,
 					bodyFont: {
-						size: 16,
+						size: expensesChart.toolTipFontSize,
 						weight: "500",
 					},
 					padding: 10,
