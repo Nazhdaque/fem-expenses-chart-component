@@ -34,13 +34,21 @@ class chartValues {
 				? this.chartColors.accentOnHover
 				: this.chartColors.mainOnHover
 		);
-	getFontSize = () => {
-		window.outerWidth <= this.breakpoint
-			? (Chart.defaults.font.size = 12)
-			: (Chart.defaults.font.size = 18);
+	getResponsiveParams = () => {
+		if (window.outerWidth <= this.breakpoint) {
+			Chart.defaults.font.size = 12;
+			Chart.defaults.elements.bar.borderRadius = 3;
+			Chart.defaults.plugins.tooltip.bodyFont.size = 12;
+			Chart.defaults.plugins.tooltip.cornerRadius = 3;
+			Chart.defaults.plugins.tooltip.padding = 5;
+		} else {
+			Chart.defaults.font.size = 18;
+			Chart.defaults.elements.bar.borderRadius = 5;
+			Chart.defaults.plugins.tooltip.bodyFont.size = 16;
+			Chart.defaults.plugins.tooltip.cornerRadius = 5;
+			Chart.defaults.plugins.tooltip.padding = 8;
+		}
 	};
-	getBorderRadius = () => (window.outerWidth <= this.breakpoint ? 3 : 5);
-	getTootipFontSize = () => (window.outerWidth <= this.breakpoint ? 12 : 16);
 	getValues = () => {
 		return {
 			tooltipTitle_hidden: () => "",
@@ -50,8 +58,7 @@ class chartValues {
 			backgroundColor: this.getMainBgColor(),
 			hoverBackgroundColor: this.getHoverBgColor(),
 			chartColors: this.chartColors,
-			borderRadius: this.getBorderRadius,
-			chartFontSize: this.getFontSize,
+			responsiveParams: this.getResponsiveParams,
 		};
 	};
 }
@@ -78,7 +85,7 @@ const getChart = async () => {
 					grid: { display: false },
 					ticks: {
 						color: expensesChart.chartColors.xTicksColor,
-						font: { size: expensesChart.chartFontSize },
+						font: { size: expensesChart.responsiveParams },
 					},
 					border: { display: false },
 				},
@@ -90,20 +97,18 @@ const getChart = async () => {
 			plugins: {
 				legend: { display: false },
 				tooltip: {
-					cornerRadius: expensesChart.borderRadius,
+					callbacks: { title: expensesChart.tooltipTitle_hidden },
 					caretSize: 0,
 					caretPadding: 8,
 					yAlign: "bottom",
 					xAlign: "center",
 					displayColors: false,
-					callbacks: { title: expensesChart.tooltipTitle_hidden },
 					bodyColor: expensesChart.chartColors.tooltipBodyColor,
 					backgroundColor: expensesChart.chartColors.tooltipBgColor,
 					bodyFont: {
-						size: expensesChart.toolTipFontSize,
+						size: expensesChart.responsiveParams,
 						weight: "500",
 					},
-					padding: 10,
 				},
 			},
 		},
@@ -115,7 +120,6 @@ const getChart = async () => {
 					label: expensesChart.label,
 					data: expensesChart.data,
 					backgroundColor: expensesChart.backgroundColor,
-					borderRadius: expensesChart.borderRadius,
 					hoverBackgroundColor: expensesChart.hoverBackgroundColor,
 					borderSkipped: false,
 				},
