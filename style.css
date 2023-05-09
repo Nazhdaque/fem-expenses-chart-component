@@ -144,12 +144,15 @@ main {
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: end;
+	margin-top: calc(clamp(0rem, -5vw + 1.75rem, 0.75rem) * -1);
 }
 
 .total {
 	font-size: var(--fs-900);
 	font-weight: var(--fw-bold);
 	color: var(--clr-neutral-900);
+	display: grid;
+	place-items: end start;
 }
 
 .percent {
@@ -162,6 +165,5 @@ main {
 	display: grid;
 	gap: clamp(0.5rem, var(--liquid-size), 0.75rem);
 	grid-auto-flow: column;
-	grid-template-columns: repeat(auto-fit, minmax(max-content, 1fr));
 	grid-template-rows: repeat(2, min-content);
 }
